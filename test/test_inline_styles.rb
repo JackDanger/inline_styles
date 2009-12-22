@@ -4,25 +4,71 @@ class TestInlineStyles < Test::Unit::TestCase
 
   CSS = <<-EOCSS
 div {display: block;}
-div small {font-size: 0.6em}
+div small {font-size: 14px}
 small {font-size: 0.7em}
 img {border: none}
 div small img {border: 1px solid #000}
 EOCSS
 
-  HTML - <<-EOHTML
-<div> Welcome </div>
-<small> stay awhile! </small>
-<div>
-  <small>
-    <img src='i.png'>
+  HTML = <<-EOHTML
+<body>
+  <div> Welcome </div>
+  <small> stay awhile! </small>
+  <div>
+    <small>
+      <img src='i.png'>
+    </small>
   </small>
-</small>
+</body>
 EOHTML
 
   context "Applying CSS to HTML" do
-    setup {  }
-    sh
+    setup {
+      @inline = InlineStyles::Page.new(HTML).apply(CSS)
+      @tree = Hpricot(@inline)
+    }
+    should "apply <div> style to each <div>" do
+      (@tree/:div).each do |element|
+        assert_has_style element, "display: block;"
+      end
+    end
+    should "apply specific style to nested <small>" do
+      assert_has_style(
+        @tree.at('div small'),
+        "font-size: 14px;"
+      )
+    end
+    should "apply generic <small> style to top-nested <small>" do
+      assert_has_style(
+        @tree.at('body > small'),
+        "font-size: 0.7em;"
+      )
+    end
+    should "not apply generic <small> style to nested <small>" do
+      assert_does_not_have_style(
+        @tree.at('div small'),
+        "font-size: 0.7em;"
+      )
+    end
+    should "not apply nested <small> style to top-level <small>" do
+      assert_does_not_have_style(
+        @tree.at('body > small'),
+        "font-size: 14px;"
+      )
+    end
+    should "apply border to deeply nested <img>" do
+      assert_has_style(
+        @tree.at('img'),
+        "border: 1px solid #000;"
+      )
+    end
+    should "not apply generic border style to <img>" do
+      puts @inline
+      assert_does_not_have_style(
+        @tree.at('img'),
+        "border: none;"
+      )
+    end
   end
 
 end
