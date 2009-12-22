@@ -1,17 +1,34 @@
-= inline_styles
+# InlineStyles
 
-Description goes here.
+Take a CSS stylesheet and semantic html and squish them together
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+## Why?
 
-== Copyright
+HTML-formatted emails don't render uniformly unless the css is attached to the 'style' attribute of every element. Unless you want to maintain your templates with explicit inline styles you'll need to apply them automatically. 
 
-Copyright (c) 2009 Jack Danger Canty. See LICENSE for details.
+## How?
+
+<pre>
+class Mailer < ActionMailer::Base
+  def message(email)
+    recipients email
+    subject "Looks nice, eh?"
+    html = render(:file   => "message.html",
+                  :layout => "email_layout.html")
+    body InlineStyles::Page.new(html).apply(stylesheet_content)
+  end
+
+  protected
+
+    def stylesheet_content
+      File.read("#{Rails.root}/public/stylesheets/messages.css")
+    end
+end
+</pre>
+
+## Requirements
+InlineStyles uses the [css_parser](http://github.com/DanaDanger/css_parser) and [Hpricot](http://github.com/hpricot/hpricot) gems
+
+### Copyright
+
+Copyright (c) 2009 [Jack Danger Canty](http://jåck.com). See LICENSE for details.
