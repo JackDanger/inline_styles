@@ -56,14 +56,13 @@ EOHTML
         "font-size: 14px;"
       )
     end
-    should "apply border to deeply nested <img>" do
+    should "apply specific border to deeply nested <img>" do
       assert_has_style(
         @tree.at('img'),
         "border: 1px solid #000;"
       )
     end
     should "not apply generic border style to <img>" do
-      puts @inline
       assert_does_not_have_style(
         @tree.at('img'),
         "border: none;"
