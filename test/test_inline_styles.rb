@@ -67,6 +67,20 @@ EOHTML
         @tree.at('img'),
         "border: none;"
       )
+      puts @inline
+    end
+    should "render inline html exactly as expected" do
+      assert_equal <<-NEWHTML, @inline
+<body>
+  <div style="display: block;"> Welcome </div>
+  <small style="font-size: 0.7em;"> stay awhile! </small>
+  <div style="display: block;">
+    <small style="font-size: 14px;">
+      <img src="i.png" style="border: 1px solid #000;" />
+    </small>
+  </small>
+</div></body>
+NEWHTML
     end
   end
 
