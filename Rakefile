@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "inline_styles"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Squish a CSS stylesheet into any semantic HTML}
+    gem.description = %Q{To make your HTML display properly when stylesheet support isn't available (e.g. Gmail) this lets you attach all your CSS to the 'style' attribute of each element.}
     gem.email = "gitcommit@6brand.com"
     gem.homepage = "http://github.com/JackDanger/inline_styles"
     gem.authors = ["Jack Danger Canty"]
@@ -50,6 +50,5 @@ Rake::RDocTask.new do |rdoc|
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "inline_styles #{version}"
-  rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

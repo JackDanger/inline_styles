@@ -1,6 +1,6 @@
 # InlineStyles
 
-Take a CSS stylesheet and semantic html and squish them together
+Squish a CSS stylesheet into any semantic html
 
 ## Why?
 
