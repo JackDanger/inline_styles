@@ -67,7 +67,6 @@ EOHTML
         @tree.at('img'),
         "border: none;"
       )
-      puts @inline
     end
     should "render inline html exactly as expected" do
       assert_equal <<-NEWHTML, @inline
