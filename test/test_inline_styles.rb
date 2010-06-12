@@ -77,7 +77,7 @@ EOHTML
     <small style="font-size: 14px;">
       <img src="i.png" style="border: 1px solid #000;" />
     </small>
-  </small>
+  
 </div></body>
 NEWHTML
     end

@@ -33,6 +33,9 @@ module InlineStyles
       end.each do |selector, declarations, spec|
         # Find each element matching the given slector
         (tree/selector).each do |element|
+
+          next unless element.respond_to?(:[])
+
           # Merge any previously-inlined style with the
           # latest (higher specificity) one
           element['style'] ||= ''
