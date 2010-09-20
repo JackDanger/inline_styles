@@ -25,7 +25,7 @@ EOHTML
   context "Applying CSS to HTML" do
     setup {
       @inline = InlineStyles::Page.new(HTML).apply(CSS)
-      @tree = Hpricot(@inline)
+      @tree = Nokogiri::HTML(@inline)
     }
     should "apply <div> style to each <div>" do
       (@tree/:div).each do |element|
@@ -70,15 +70,16 @@ EOHTML
     end
     should "render inline html exactly as expected" do
       assert_equal <<-NEWHTML, @inline
-<body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
   <div style="display: block;"> Welcome </div>
   <small style="font-size: 0.7em;"> stay awhile! </small>
   <div style="display: block;">
     <small style="font-size: 14px;">
-      <img src="i.png" style="border: 1px solid #000;" />
-    </small>
+      <img src="i.png" style="border: 1px solid #000;"></small>
   
-</div></body>
+</div>
+</body></html>
 NEWHTML
     end
   end

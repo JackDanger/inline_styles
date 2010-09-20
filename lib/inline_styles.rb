@@ -13,7 +13,7 @@ module InlineStyles
       parser = CssParser::Parser.new
       parser.add_block! css
 
-      tree = Hpricot(html)
+      tree = Nokogiri::HTML(html)
 
       stable_sorter = 0
       selectors = []
@@ -32,10 +32,9 @@ module InlineStyles
         [selector.last, stable_sorter += 1]
       end.each do |selector, declarations, spec|
         # Find each element matching the given slector
-        (tree/selector).each do |element|
+        (tree.css selector).each do |element|
 
           next unless element.respond_to?(:[])
-
           # Merge any previously-inlined style with the
           # latest (higher specificity) one
           element['style'] ||= ''
@@ -54,8 +53,8 @@ module InlineStyles
       def require_dependencies
         gem 'css_parser'
         require 'css_parser'
-        gem 'hpricot'
-        require 'hpricot'
+        gem 'nokogiri'
+        require 'nokogiri'
       end
   end
 
