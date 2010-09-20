@@ -6,6 +6,7 @@ class TestInlineStyles < Test::Unit::TestCase
 div {display: block;}
 div small {font-size: 14px}
 small {font-size: 0.7em}
+#missing_element {color: #123}
 img {border: none}
 div small img {border: 1px solid #000}
 EOCSS
@@ -67,6 +68,9 @@ EOHTML
         @tree.at('img'),
         "border: none;"
       )
+    end
+    should "ignore styles that needn't apply" do
+      assert !@inline.include?("#missing_element")
     end
     should "render inline html exactly as expected" do
       assert_equal <<-NEWHTML, @inline
