@@ -27,7 +27,7 @@ end
 </pre>
 
 ## Requirements
-InlineStyles uses the [css_parser](http://github.com/DanaDanger/css_parser) and [Hpricot](http://github.com/hpricot/hpricot) gems
+InlineStyles uses the [css_parser](http://github.com/DanaDanger/css_parser) and [Nokogiri](http://nokogiri.org) gems
 
 ### Copyright
 
