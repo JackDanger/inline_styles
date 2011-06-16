@@ -15,7 +15,7 @@ class Mailer < ActionMailer::Base
     subject "Looks nice, eh?"
     html = render(:file   => "message.html",
                   :layout => "email_layout.html")
-    body InlineStyles::Page.new(html).apply(stylesheet_content)
+    body InlineStyles::Page.new.with_html(html).with_css(stylesheet_content).apply
   end
 
   protected
@@ -27,7 +27,7 @@ end
 </pre>
 
 ## Requirements
-InlineStyles uses the [css_parser](http://github.com/DanaDanger/css_parser) and [Nokogiri](http://nokogiri.org) gems
+InlineStyles uses the [css_parser](http://github.com/DanaDanger/css_parser) and [Hpricot](http://github.com/hpricot/hpricot) gems
 
 ### Copyright
 

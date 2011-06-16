@@ -1,36 +1,54 @@
+require 'css_parser'
+require 'nokogiri'
 
 module InlineStyles
   class Page
     attr_accessor :html
 
-    def initialize(html)
+    def initialize(html = nil)
       @html = html
     end
 
-    def apply(css)
-      require_dependencies
+    def with_css(css)
+      @css = css
+      self
+    end
 
-      parser = CssParser::Parser.new
-      parser.add_block! css
+    def with_html(html)
+      @html = html
+      self
+    end
 
-      tree = Nokogiri::HTML(html)
+    def selectors
+      @selectors ||= begin
+        parser = CssParser::Parser.new
+        parser.add_block! @css
 
-      stable_sorter = 0
-      selectors = []
+        stable_sorter = 0
+        selectors = []
 
-      # extracting selectors via the API rather than
-      # just reaching in and grabbing @selectors
-      parser.each_selector do |selector, declarations, specificity|
-        selectors << [selector, declarations, specificity]
+        # extracting selectors via the API rather than
+        # just reaching in and grabbing @selectors
+        parser.each_selector do |selector, declarations, specificity|
+          selectors << [selector, declarations, specificity]
+        end
+
+        # stable-sort the selectors so that we get them sorted
+        # by specificity but also keeping their rough
+        # original order. This is how CSS selectors are applied
+        # in a browser
+        selectors.sort_by do |selector|
+          [selector.last, stable_sorter += 1]
+        end
       end
+    end
 
-      # stable-sort the selectors so that we get them sorted
-      # by specificity but also keeping their rough
-      # original order. This is how CSS selectors are applied
-      # in a browser
-      selectors.sort_by do |selector|
-        [selector.last, stable_sorter += 1]
-      end.each do |selector, declarations, spec|
+    def apply(stylesheet_content = nil)
+      with_css(stylesheet_content) if stylesheet_content
+
+      tree = Nokogiri::HTML(@html)
+
+      selectors.each do |selector, declarations, spec|
         # Find each element matching the given slector
         (tree.css selector).each do |element|
 
@@ -47,15 +65,6 @@ module InlineStyles
 
       tree.to_s
     end
-
-    protected
-
-      def require_dependencies
-        gem 'css_parser'
-        require 'css_parser'
-        gem 'nokogiri'
-        require 'nokogiri'
-      end
   end
 
   # taken from http://moserei.de/index.php/17/stable-array-sorting-in-ruby
