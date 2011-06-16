@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{inline_styles}
-  s.version = "1.1.1"
+  s.version = "1.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jack Danger Canty"]
-  s.date = %q{2011-04-10}
+  s.date = %q{2011-06-15}
   s.description = %q{To make your HTML display properly when stylesheet support isn't available (e.g. Gmail) this lets you attach all your CSS to the 'style' attribute of each element.}
   s.email = %q{gitcommit@6brand.com}
   s.extra_rdoc_files = [
@@ -30,10 +30,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.4.2}
   s.summary = %q{Squish a CSS stylesheet into any semantic HTML}
-  s.test_files = [
-    "test/helper.rb",
-    "test/test_inline_styles.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
