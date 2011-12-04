@@ -4,12 +4,12 @@ Squish a CSS stylesheet into any semantic html
 
 ## Why?
 
-HTML-formatted emails don't render uniformly unless the css is attached to the 'style' attribute of every element. Unless you want to maintain your templates with explicit inline styles you'll need to apply them automatically. 
+HTML-formatted emails don't render uniformly unless the css is attached to the 'style' attribute of every element. Unless you want to maintain your templates with explicit inline styles you'll need to apply them automatically.
 
 ## How?
 
 <pre>
-class Mailer < ActionMailer::Base
+class Mailer &lt; ActionMailer::Base
   def message(email)
     recipients email
     subject "Looks nice, eh?"
